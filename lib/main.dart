@@ -11,11 +11,16 @@ class MyApp extends StatelessWidget { // ✅ StatelessWidget
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lorem App',
       debugShowCheckedModeBanner: false,
+      title: 'Notes App',
       theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.grey,
+        primarySwatch: Colors.deepPurple,
+        scaffoldBackgroundColor: const Color(0xFFF7FAFC),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          foregroundColor: Color(0xFF2D3748),
+        )
       ),
       home: const SplashPage(),
     );

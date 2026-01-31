@@ -13,16 +13,24 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
 
   @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 80),
               const Text(
-                'lorem ipsum',
+                'Welcome Back',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 12),
@@ -46,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                       MaterialPageRoute(builder: (_) => const HomePage()),
                     );
                   },
-                  child: const Text('Sign In'),
+                  child: const Text('Login'),
                 ),
               ),
             ],
