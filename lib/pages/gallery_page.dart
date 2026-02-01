@@ -6,22 +6,27 @@ class GalleryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Lorem Gallery')),
+      appBar: AppBar(title: const Text('Gallery')),
       body: GridView.builder(
         padding: const EdgeInsets.all(16),
+        itemCount: 6,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
         ),
-        itemCount: 6,
         itemBuilder: (context, index) {
           return Container(
             decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(12),
+              color: Colors.deepPurple.shade100,
+              borderRadius: BorderRadius.circular(16),
             ),
-            child: const Icon(Icons.image, size: 40),
+            child: Center(
+              child: Text(
+                'image ${index + 1}',
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
           );
         },
       ),

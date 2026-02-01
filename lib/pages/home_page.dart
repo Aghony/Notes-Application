@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const DetailPage(),
+                    builder: (_) => DetailPage(index: index),
                   ),
                 );
               },
@@ -55,6 +55,7 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
+                      // ignore: deprecated_member_use
                       color: Colors.black.withOpacity(0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
@@ -71,6 +72,7 @@ class HomePage extends StatelessWidget {
                           gradient: LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
+                            // ignore: deprecated_member_use
                             colors: [color, color.withOpacity(0.7)],
                           ),
                         ),
