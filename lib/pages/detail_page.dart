@@ -293,13 +293,114 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   const SizedBox(height: 24),
 
-                  
+                  TextField(
+                    controller: _contentController,
+                    enabled: _isEditing,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Color(0xFF4A5568),
+                      height: 1.6,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: 'Start typing your note....',
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                      hintStyle: TextStyle(color: Colors.grey.shade400),
+                    ),
+                    maxLines: null,
+                    minLines: 10,
+                  ),
                 ],
               ),
             ),
           ),
+
+          if (_isEditing)
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, -5),
+                  ),
+                ],
+              ),
+              child: SafeArea(
+                top: false,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.image_outlined),
+                      onPressed: () {},
+                      color: const Color(0xFF718096),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.attach_file),
+                      onPressed: () {},
+                      color: const Color(0xFF718096),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.format_bold),
+                      onPressed: () {},
+                      color: const Color(0xFF718096),
+                    ),
+                    const Spacer(),
+
+                    if (widget.note != null)
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            _isEditing = false;
+                            _titleController.text = widget.note!.title;
+                            _contentController.text = widget.note!.content;
+                            _selectedCategory = widget.note!.category;
+                          });
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                    const SizedBox(width: 8),
+
+                    ElevatedButton.icon(
+                      onPressed: _saveNote,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF6C63FF),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                      ),
+                      icon: const Icon(Icons.check, size: 20),
+                      label: const Text('Save'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );
+  }
+
+  String _formatDate(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+
+    if (difference.inMinutes < 1) {
+      return 'just now';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes} ${difference.inMinutes == 1 ? 'minute' : 'minutes'} ago';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours} ${difference.inHours == 1 ? 'hour' : 'hours'} ago';
+    } else if (difference.inDays < 7) {
+      return '${difference.inDays} ${difference.inDays == 1 ? 'day' : 'days'} ago';
+    } else {
+      return '${date.day}/${date.month}/${date.year}';
+    }
   }
 }
