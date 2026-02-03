@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 
@@ -68,40 +66,43 @@ class _SplashPageState extends State<SplashPage>
                 builder: (context, child) {
                   return FadeTransition(
                     opacity: _fadeAnimation,
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(30),
+                    child: ScaleTransition(
+                      scale: _scaleAnimation,
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: const Icon(
+                              Icons.note_alt_rounded,
+                              size: 60,
+                              color: Colors.white,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.note_alt_rounded,
-                            size: 60,
-                            color: Colors.white,
+                          const SizedBox(height: 32),
+                          const Text(
+                            'Notes',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              letterSpacing: -1,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 32),
-                        const Text(
-                          'Notes',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            letterSpacing: -1,
+                          const SizedBox(height: 12),
+                          Text(
+                            'Your throughts, organized',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white.withValues(alpha: 0.9),
+                              letterSpacing: 0.5,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          'Your throughts, organized',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white.withValues(alpha: 0.9),
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -136,7 +137,9 @@ class _SplashPageState extends State<SplashPage>
                                         child: child,
                                       );
                                     },
-                                    transitionDuration: const Duration(milliseconds: 500),
+                                transitionDuration: const Duration(
+                                  milliseconds: 500,
+                                ),
                               ),
                             );
                           },
