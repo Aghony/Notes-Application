@@ -1,30 +1,21 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
   @override
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
+  
+  @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const LoginPage()),
-      );
-    });
-    return Scaffold(
-      body: Center(
-        child: Text(
-          'Notes App',
-          style: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF6C63FF)
-          ),
-        ),
-      ),
-    );
+    return const Placeholder();
   }
 }
