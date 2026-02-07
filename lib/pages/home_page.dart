@@ -325,10 +325,23 @@ class _HomePageState extends State<HomePage>
       context,
       MaterialPageRoute(builder: (_) => DetailPage(note: note)),
     );
-    if (result != null && result is Note) {
-      setState(() {
+    if (!mounted || result == null) return;
+
+    setState(() {
+      if (result is Note) {
         _allNotes.add(result);
-      });
+      } else if (result == 'delete' && note != null) {
+        _allNotes.removeWhere((n) => n.id == note.id);
+      }
+    });
+
+    if (result == 'delete') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Note deleted'),
+          behavior: SnackBarBehavior.floating,
+        )
+        );
     }
   }
 }

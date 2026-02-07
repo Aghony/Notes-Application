@@ -117,7 +117,7 @@ class _DetailPageState extends State<DetailPage> {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              Navigator.pop(context);
+              Navigator.pop(context, 'delete');
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: const Row(
