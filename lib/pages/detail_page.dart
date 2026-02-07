@@ -4,7 +4,7 @@ import 'package:notes_app/models/note.dart';
 class DetailPage extends StatefulWidget {
   final Note? note;
 
-  const DetailPage({super.key, this.note, required int index});
+  const DetailPage({super.key, this.note});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -34,6 +34,34 @@ class _DetailPageState extends State<DetailPage> {
     _titleController.dispose();
     _contentController.dispose();
     super.dispose();
+  }
+
+  void _addNote() {
+    if (_titleController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Please enter a title'),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+      return;
+    }
+
+    final newNote = Note(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      content: _contentController.text.trim(),
+      title: _titleController.text.trim(),
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      category: _selectedCategory,
+      tags: [],
+      isPinned: _isPinned  
+    );
+    
+    Navigator.pop(context, newNote);
   }
 
   void _saveNote() {
@@ -210,11 +238,11 @@ class _DetailPageState extends State<DetailPage> {
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: NoteCategory.values.map((Category) {
-                      final isSelected = _selectedCategory == Category;
+                    children: NoteCategory.values.map((category) {
+                      final isSelected = _selectedCategory == category;
                       return GestureDetector(
                         onTap: _isEditing
-                            ? () => setState(() => _selectedCategory = Category)
+                            ? () => setState(() => _selectedCategory = category)
                             : null,
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
@@ -224,12 +252,12 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? Color(Category.color)
+                                ? Color(category.color)
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               color: isSelected
-                                  ? Color(Category.color)
+                                  ? Color(category.color)
                                   : Colors.grey.shade300,
                             ),
                           ),
@@ -237,12 +265,12 @@ class _DetailPageState extends State<DetailPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                Category.icon,
+                                category.icon,
                                 style: TextStyle(fontSize: 14),
                               ),
                               const SizedBox(width: 6),
                               Text(
-                                Category.displayName,
+                                category.displayName,
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
@@ -363,7 +391,7 @@ class _DetailPageState extends State<DetailPage> {
                     const SizedBox(width: 8),
 
                     ElevatedButton.icon(
-                      onPressed: _saveNote,
+                      onPressed: widget.note == null ?_addNote : _saveNote,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C63FF),
                         foregroundColor: Colors.white,
