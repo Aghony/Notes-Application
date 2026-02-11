@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/models/note.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 
 class DetailPage extends StatefulWidget {
   final Note? note;
@@ -109,6 +111,40 @@ class _DetailPageState extends State<DetailPage> {
     );
 
     Navigator.pop(context, updatedNote);
+  }
+
+  Future<void> _importFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['txt'],
+    );
+
+    if (result != null && result.files.single.path != null) {
+      final file = File(result.files.single.path!);
+      final content = await file.readAsString();
+
+      setState(() {
+        _contentController.text = content;
+      });
+    }
+  }
+
+  void _makeBold() {
+    final text = _contentController.text;
+    final selection = _contentController.selection;
+
+    if (!selection.isValid || selection.isCollapsed) return;
+
+    final newText = text.replaceRange(
+      selection.start,
+      selection.end,
+      '**${selection.textInside(text)}**',
+    );
+    _contentController.text = newText;
+
+    _contentController.selection = TextSelection.collapsed(
+      offset: selection.end + 4,
+    );
   }
 
   void _deleteNote() {
@@ -377,7 +413,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     IconButton(
                       icon: const Icon(Icons.attach_file),
-                      onPressed: () {},
+                      onPressed: _importFile,
                       color: const Color(0xFF718096),
                     ),
                     IconButton(
