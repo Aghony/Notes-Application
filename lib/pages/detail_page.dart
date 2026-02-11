@@ -58,9 +58,9 @@ class _DetailPageState extends State<DetailPage> {
       updatedAt: DateTime.now(),
       category: _selectedCategory,
       tags: [],
-      isPinned: _isPinned  
+      isPinned: _isPinned,
     );
-    
+
     Navigator.pop(context, newNote);
   }
 
@@ -77,6 +77,17 @@ class _DetailPageState extends State<DetailPage> {
       );
       return;
     }
+
+    final updatedNote = Note(
+      id: widget.note!.id, // tetap pakai id lama
+      title: _titleController.text.trim(),
+      content: _contentController.text.trim(),
+      createdAt: widget.note!.createdAt, // jangan ubah
+      updatedAt: DateTime.now(), // update waktu edit
+      category: _selectedCategory,
+      tags: widget.note!.tags,
+      isPinned: _isPinned,
+    );
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -97,7 +108,7 @@ class _DetailPageState extends State<DetailPage> {
       ),
     );
 
-    Navigator.pop(context);
+    Navigator.pop(context, updatedNote);
   }
 
   void _deleteNote() {
@@ -391,7 +402,7 @@ class _DetailPageState extends State<DetailPage> {
                     const SizedBox(width: 8),
 
                     ElevatedButton.icon(
-                      onPressed: widget.note == null ?_addNote : _saveNote,
+                      onPressed: widget.note == null ? _addNote : _saveNote,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6C63FF),
                         foregroundColor: Colors.white,
